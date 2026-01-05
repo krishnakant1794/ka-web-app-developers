@@ -24,6 +24,24 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'KA Web & App Developers API',
+    status: 'Server is running',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      projects: '/api/projects',
+      testimonials: '/api/testimonials',
+      pricing: '/api/pricing',
+      contact: '/api/contact',
+      teamMembers: '/api/team-members',
+      auth: '/api/auth'
+    }
+  });
+});
+
 // Routes
 app.use('/api/projects', projectRoutes);
 app.use('/api/testimonials', testimonialRoutes);
@@ -38,10 +56,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/kawebapp', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/kawebapp')
 .then(() => {
   console.log('✅ MongoDB connected successfully');
   // Initialize admin user if not exists
