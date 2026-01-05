@@ -12,10 +12,12 @@ const About = () => {
 
   const fetchTeamMembers = async () => {
     try {
+      setLoading(true);
       const response = await axios.get('/api/team-members');
-      setTeamMembers(response.data);
+      setTeamMembers(response.data || []);
     } catch (error) {
       console.error('Error fetching team members:', error);
+      setTeamMembers([]); // Set empty array on error
     } finally {
       setLoading(false);
     }

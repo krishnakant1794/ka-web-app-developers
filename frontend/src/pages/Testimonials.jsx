@@ -14,9 +14,10 @@ const Testimonials = () => {
     try {
       setLoading(true);
       const response = await axios.get('/api/testimonials');
-      setTestimonials(response.data);
+      setTestimonials(response.data || []);
     } catch (error) {
       console.error('Error fetching testimonials:', error);
+      setTestimonials([]); // Set empty array on error
     } finally {
       setLoading(false);
     }

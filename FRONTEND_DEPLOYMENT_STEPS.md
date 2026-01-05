@@ -101,6 +101,7 @@ Now you need to allow your Vercel frontend to access the backend:
 3. Add:
    - **Key**: `CORS_ORIGIN`
    - **Value**: `https://your-frontend-url.vercel.app`
+   https://webappdeveloper.online
    ⚠️ Replace `your-frontend-url` with your actual Vercel URL!
 
 4. Click **"Save Changes"**

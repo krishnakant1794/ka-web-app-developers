@@ -14,9 +14,32 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// Middleware - CORS with multiple origins support
+const allowedOrigins = process.env.CORS_ORIGIN 
+  ? process.env.CORS_ORIGIN.split(',').map(origin => origin.trim().replace(/\/$/, ''))
+  : ['http://localhost:5173'];
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Remove trailing slash for comparison
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(normalizedOrigin) || allowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      // Also check if any allowed origin matches
+      const isAllowed = allowedOrigins.some(allowedOrigin => {
+        const normalizedAllowed = allowedOrigin.replace(/\/$/, '');
+        return normalizedOrigin === normalizedAllowed || 
+               normalizedOrigin.includes(normalizedAllowed.replace('https://', '').replace('http://', ''));
+      });
+      callback(isAllowed ? null : new Error('Not allowed by CORS'), isAllowed);
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
