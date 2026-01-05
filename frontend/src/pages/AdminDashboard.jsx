@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaEnvelope, FaCheck } from 'react-icons/fa';
 
@@ -119,9 +119,20 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    navigate('/admin/login');
+  const handleLogout = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    try {
+      localStorage.removeItem('adminToken');
+      // Clear any other admin-related data
+      navigate('/admin/login', { replace: true });
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Force navigation even if there's an error
+      navigate('/admin/login', { replace: true });
+    }
   };
 
   if (loading) {
@@ -146,27 +157,86 @@ const AdminDashboard = () => {
         }}></div>
       </div>
 
-      <div className="bg-dark-800/95 backdrop-blur-md shadow-2xl border-b border-white/10 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
+      <div className="bg-dark-800/95 backdrop-blur-md shadow-2xl border-b border-gray-700 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            {/* Left Section - Logo and Title */}
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30">
-                <span className="text-white font-bold text-xl">KA</span>
+              <Link to="/" className="flex items-center space-x-3 group">
+                <div className="relative">
+                  <div className="w-14 h-14 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all">
+                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
+                      <span className="text-orange-600 font-bold text-xl" style={{ fontFamily: 'brush script, cursive' }}>KA</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-orange-500">Admin Dashboard</h1>
+                  <p className="text-gray-400 text-xs">Manage your website content</p>
+                </div>
+              </Link>
+            </div>
+
+            {/* Right Section - Navigation Links */}
+            <div className="flex items-center space-x-2">
+              {/* Standard Navigation Links */}
+              <div className="hidden md:flex items-center space-x-1">
+                <Link
+                  to="/"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-orange-400 transition-colors rounded-lg hover:bg-white/5"
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/services"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-orange-400 transition-colors rounded-lg hover:bg-white/5"
+                >
+                  Services
+                </Link>
+                <Link
+                  to="/projects"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-orange-400 transition-colors rounded-lg hover:bg-white/5"
+                >
+                  Projects
+                </Link>
+                <Link
+                  to="/pricing"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-orange-400 transition-colors rounded-lg hover:bg-white/5"
+                >
+                  Pricing
+                </Link>
+                <Link
+                  to="/testimonials"
+                  className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-orange-400 transition-colors rounded-lg hover:bg-white/5"
+                >
+                  Testimonials
+                </Link>
               </div>
-              <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-primary-200 to-primary-400 bg-clip-text text-transparent">
-                  Admin Dashboard
-                </h1>
-                <p className="text-gray-400 text-sm mt-1">Manage your website content</p>
+
+              {/* Highlighted Section with About, Contact, and Logout */}
+              <div className="flex items-center space-x-1 bg-red-900/50 border border-red-800/60 rounded-xl px-2 py-1 shadow-lg shadow-red-900/30">
+                <Link
+                  to="/about"
+                  className="px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-lg"
+                >
+                  About
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-3 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors rounded-lg"
+                >
+                  Contact
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="px-3 py-2 text-sm font-semibold text-red-900 hover:text-red-700 transition-colors rounded-lg flex items-center space-x-1 group cursor-pointer"
+                >
+                  <span>►</span>
+                  <span>Logout</span>
+                </button>
               </div>
             </div>
-            <button
-              onClick={handleLogout}
-              className="group flex items-center space-x-2 px-6 py-3 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-xl transition-all duration-300 hover:scale-105 border border-red-500/30 hover:shadow-lg hover:shadow-red-500/30 font-semibold"
-            >
-              <FaSignOutAlt />
-              <span>Logout</span>
-            </button>
           </div>
         </div>
       </div>

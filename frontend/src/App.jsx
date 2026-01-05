@@ -20,7 +20,7 @@ function App() {
       <div className="min-h-screen flex flex-col relative">
         <StarBackground />
         <div className="relative z-10 flex flex-col min-h-screen">
-          <Navbar />
+          <ConditionalNavbar />
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -42,6 +42,16 @@ function App() {
     </Router>
   );
 }
+
+// Conditional Navbar - Hide on admin pages
+const ConditionalNavbar = () => {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin');
+  
+  if (isAdminPage) return null;
+  
+  return <Navbar />;
+};
 
 // Admin Button Component - Shows on all public pages
 const AdminButton = () => {
