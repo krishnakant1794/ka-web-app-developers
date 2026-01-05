@@ -81,8 +81,14 @@ app.get('/', (req, res) => {
   });
 });
 
-// Handle OPTIONS requests for CORS preflight
-app.options('*', cors());
+// Handle OPTIONS requests for CORS preflight - respond with explicit headers
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  return res.sendStatus(204);
+});
 
 // Routes
 app.use('/api/projects', projectRoutes);
@@ -91,6 +97,15 @@ app.use('/api/pricing', pricingRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/team-members', teamMemberRoutes);
+
+// CORS error handler - turn cors package errors into 403 so preflight doesn't return 500
+app.use((err, req, res, next) => {
+  if (err && err.message && err.message.includes('Not allowed by CORS')) {
+    console.warn(`CORS blocked request from origin=${req.headers.origin} allowed=${JSON.stringify(allowedOrigins)}`);
+    return res.status(403).json({ message: 'CORS origin not allowed' });
+  }
+  next(err);
+});
 
 // Health check
 app.get('/api/health', (req, res) => {
