@@ -17,10 +17,10 @@ const Footer = () => {
               Affordable Website & Mobile App Development for Businesses
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 bg-white/5 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <a href="https://github.com/krishnakant1794" className="w-10 h-10 bg-white/5 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <FaGithub className="text-gray-400 hover:text-white" />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/5 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <a href="https://www.linkedin.com/in/krishnakant-kumar1794/" className="w-10 h-10 bg-white/5 hover:bg-primary-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110">
                 <FaLinkedin className="text-gray-400 hover:text-white" />
               </a>
             </div>
