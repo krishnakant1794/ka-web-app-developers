@@ -13,7 +13,7 @@ const Testimonials = () => {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/testimonials');
+      const response = await api.get('/api/testimonials');
       const data = Array.isArray(response.data) ? response.data : [];
       setTestimonials(data);
     } catch (error) {

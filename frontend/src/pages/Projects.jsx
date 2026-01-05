@@ -14,7 +14,7 @@ const Projects = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/projects${filter !== 'all' ? `?category=${filter}` : ''}`);
+      const response = await api.get(`/api/projects${filter !== 'all' ? `?category=${filter}` : ''}`);
       const data = Array.isArray(response.data) ? response.data : [];
       setProjects(data);
     } catch (error) {

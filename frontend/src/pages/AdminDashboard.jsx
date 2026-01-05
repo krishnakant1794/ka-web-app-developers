@@ -43,7 +43,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      await api.get('/auth/verify');
+      await api.get('/api/auth/verify');
       setLoading(false);
     } catch (error) {
       localStorage.removeItem('adminToken');
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await api.get('/projects');
+      const response = await api.get('/api/projects');
       const data = Array.isArray(response.data) ? response.data : [];
       setProjects(data);
     } catch (error) {
@@ -67,7 +67,7 @@ const AdminDashboard = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await api.get('/testimonials');
+      const response = await api.get('/api/testimonials');
       const data = Array.isArray(response.data) ? response.data : [];
       setTestimonials(data);
     } catch (error) {
@@ -77,7 +77,7 @@ const AdminDashboard = () => {
 
   const fetchPricingPlans = async () => {
     try {
-      const response = await api.get('/pricing');
+      const response = await api.get('/api/pricing');
       const data = Array.isArray(response.data) ? response.data : [];
       setPricingPlans(data);
     } catch (error) {
@@ -89,7 +89,7 @@ const AdminDashboard = () => {
     try {
       const token = localStorage.getItem('adminToken');
       if (!token) return;
-      const response = await api.get('/contact', getAuthHeaders());
+      const response = await api.get('/api/contact', getAuthHeaders());
       const data = Array.isArray(response.data) ? response.data : [];
       setContactMessages(data);
     } catch (error) {
@@ -99,7 +99,7 @@ const AdminDashboard = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      const response = await api.get('/team-members');
+      const response = await api.get('/api/team-members');
       const data = Array.isArray(response.data) ? response.data : [];
       setTeamMembers(data);
     } catch (error) {
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
 
     try {
-      await api.delete(`/${type}/${id}`, getAuthHeaders());
+      await api.delete(`/api/${type}/${id}`, getAuthHeaders());
       if (type === 'projects') fetchProjects();
       if (type === 'testimonials') fetchTestimonials();
       if (type === 'pricing') fetchPricingPlans();
@@ -432,15 +432,10 @@ const ProjectsTab = ({ projects, editingItem, onAdd, onEdit, onDelete, onClose, 
     };
 
     try {
-      const token = localStorage.getItem('adminToken');
       if (editingItem) {
-        await axios.put(`/api/projects/${editingItem._id}`, data, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.put(`/api/projects/${editingItem._id}`, data);
       } else {
-        await axios.post('/api/projects', data, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.post('/api/projects', data);
       }
       onRefresh();
       onClose();
@@ -632,15 +627,10 @@ const TestimonialsTab = ({ testimonials, editingItem, onAdd, onEdit, onDelete, o
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('adminToken');
       if (editingItem) {
-        await axios.put(`/api/testimonials/${editingItem._id}`, formData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.put(`/api/testimonials/${editingItem._id}`, formData);
       } else {
-        await axios.post('/api/testimonials', formData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.post('/api/testimonials', formData);
       }
       onRefresh();
       onClose();
@@ -839,15 +829,10 @@ const PricingTab = ({ plans, editingItem, onAdd, onEdit, onDelete, onClose, onRe
     };
 
     try {
-      const token = localStorage.getItem('adminToken');
       if (editingItem) {
-        await axios.put(`/api/pricing/${editingItem._id}`, data, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.put(`/api/pricing/${editingItem._id}`, data);
       } else {
-        await axios.post('/api/pricing', data, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.post('/api/pricing', data);
       }
       onRefresh();
       onClose();
@@ -1083,15 +1068,10 @@ const TeamMembersTab = ({ members, editingItem, onAdd, onEdit, onDelete, onClose
     };
 
     try {
-      const token = localStorage.getItem('adminToken');
       if (editingItem) {
-        await axios.put(`/api/team-members/${editingItem._id}`, data, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.put(`/api/team-members/${editingItem._id}`, data);
       } else {
-        await axios.post('/api/team-members', data, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await api.post('/api/team-members', data);
       }
       onRefresh();
       onClose();
@@ -1303,10 +1283,7 @@ const TeamMembersTab = ({ members, editingItem, onAdd, onEdit, onDelete, onClose
 const MessagesTab = ({ messages, onRefresh }) => {
   const handleMarkAsRead = async (messageId) => {
     try {
-      const token = localStorage.getItem('adminToken');
-      await axios.put(`/api/contact/${messageId}/read`, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.put(`/api/contact/${messageId}/read`);
       onRefresh();
     } catch (error) {
       console.error('Error marking message as read:', error);

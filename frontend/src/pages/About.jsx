@@ -13,7 +13,7 @@ const About = () => {
   const fetchTeamMembers = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/team-members');
+      const response = await api.get('/api/team-members');
       const data = Array.isArray(response.data) ? response.data : [];
       setTeamMembers(data);
     } catch (error) {

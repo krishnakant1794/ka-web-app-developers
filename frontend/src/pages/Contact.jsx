@@ -28,7 +28,7 @@ const Contact = () => {
     setSuccess(false);
 
     try {
-      await api.post('/contact', formData);
+      await api.post('/api/contact', formData);
       setSuccess(true);
       setFormData({ name: '', email: '', whatsapp: '', phone: '', message: '' });
     } catch (err) {

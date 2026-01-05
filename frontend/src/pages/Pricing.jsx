@@ -15,8 +15,8 @@ const Pricing = () => {
     try {
       setLoading(true);
       const [websiteRes, appRes] = await Promise.all([
-        api.get('/pricing?category=Website'),
-        api.get('/pricing?category=App'),
+        api.get('/api/pricing?category=Website'),
+        api.get('/api/pricing?category=App'),
       ]);
       const websiteData = Array.isArray(websiteRes.data) ? websiteRes.data : [];
       const appData = Array.isArray(appRes.data) ? appRes.data : [];
