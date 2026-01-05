@@ -18,8 +18,10 @@ const Pricing = () => {
         axios.get('/api/pricing?category=Website'),
         axios.get('/api/pricing?category=App'),
       ]);
-      setWebsitePlans(websiteRes.data || []);
-      setAppPlans(appRes.data || []);
+      const websiteData = Array.isArray(websiteRes.data) ? websiteRes.data : [];
+      const appData = Array.isArray(appRes.data) ? appRes.data : [];
+      setWebsitePlans(websiteData);
+      setAppPlans(appData);
     } catch (error) {
       console.error('Error fetching pricing plans:', error);
       setWebsitePlans([]); // Set empty arrays on error

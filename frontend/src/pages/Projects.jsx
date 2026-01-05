@@ -15,7 +15,8 @@ const Projects = () => {
     try {
       setLoading(true);
       const response = await axios.get(`/api/projects${filter !== 'all' ? `?category=${filter}` : ''}`);
-      setProjects(response.data || []);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setProjects(data);
     } catch (error) {
       console.error('Error fetching projects:', error);
       setProjects([]); // Set empty array on error

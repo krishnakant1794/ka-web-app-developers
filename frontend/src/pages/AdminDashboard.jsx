@@ -60,7 +60,8 @@ const AdminDashboard = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get('/api/projects');
-      setProjects(response.data);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setProjects(data);
     } catch (error) {
       console.error('Error fetching projects:', error);
     }
@@ -69,7 +70,8 @@ const AdminDashboard = () => {
   const fetchTestimonials = async () => {
     try {
       const response = await axios.get('/api/testimonials');
-      setTestimonials(response.data);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setTestimonials(data);
     } catch (error) {
       console.error('Error fetching testimonials:', error);
     }
@@ -78,7 +80,8 @@ const AdminDashboard = () => {
   const fetchPricingPlans = async () => {
     try {
       const response = await axios.get('/api/pricing');
-      setPricingPlans(response.data);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setPricingPlans(data);
     } catch (error) {
       console.error('Error fetching pricing plans:', error);
     }
@@ -91,7 +94,8 @@ const AdminDashboard = () => {
       const response = await axios.get('/api/contact', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setContactMessages(response.data);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setContactMessages(data);
     } catch (error) {
       console.error('Error fetching contact messages:', error);
     }
@@ -100,7 +104,8 @@ const AdminDashboard = () => {
   const fetchTeamMembers = async () => {
     try {
       const response = await axios.get('/api/team-members');
-      setTeamMembers(response.data);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setTeamMembers(data);
     } catch (error) {
       console.error('Error fetching team members:', error);
     }

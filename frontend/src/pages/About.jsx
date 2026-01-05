@@ -14,7 +14,8 @@ const About = () => {
     try {
       setLoading(true);
       const response = await axios.get('/api/team-members');
-      setTeamMembers(response.data || []);
+      const data = Array.isArray(response.data) ? response.data : [];
+      setTeamMembers(data);
     } catch (error) {
       console.error('Error fetching team members:', error);
       setTeamMembers([]); // Set empty array on error
