@@ -65,6 +65,9 @@ app.get('/', (req, res) => {
   });
 });
 
+// Handle OPTIONS requests for CORS preflight
+app.options('*', cors());
+
 // Routes
 app.use('/api/projects', projectRoutes);
 app.use('/api/testimonials', testimonialRoutes);

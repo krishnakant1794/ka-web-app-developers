@@ -5,6 +5,11 @@ import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Test route to verify auth routes are working
+router.get('/', (req, res) => {
+  res.json({ message: 'Auth routes are working', endpoints: ['/login', '/verify'] });
+});
+
 // Admin login
 router.post('/login', async (req, res) => {
   try {

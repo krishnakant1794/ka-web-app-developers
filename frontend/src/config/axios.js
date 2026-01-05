@@ -1,11 +1,15 @@
 import axios from 'axios';
 
 // Set default baseURL for all axios requests
-const baseURL = import.meta.env.VITE_API_URL || '/api';
-axios.defaults.baseURL = baseURL;
+const baseURL = import.meta.env.VITE_API_URL || '';
+// Only set baseURL if VITE_API_URL is provided (production)
+// In development, use relative URLs with proxy
+if (baseURL) {
+  axios.defaults.baseURL = baseURL;
+}
 
 const api = axios.create({
-  baseURL: baseURL,
+  baseURL: baseURL || '',
   headers: {
     'Content-Type': 'application/json',
   },
