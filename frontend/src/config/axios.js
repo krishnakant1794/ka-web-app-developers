@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// Set default baseURL for all axios requests
+const baseURL = import.meta.env.VITE_API_URL || '/api';
+axios.defaults.baseURL = baseURL;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
