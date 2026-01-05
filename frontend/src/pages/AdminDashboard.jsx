@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/axios';
 import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaEnvelope, FaCheck } from 'react-icons/fa';
 
 const AdminDashboard = () => {
@@ -43,9 +43,7 @@ const AdminDashboard = () => {
     }
 
     try {
-      await axios.get('/api/auth/verify', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.get('/auth/verify');
       setLoading(false);
     } catch (error) {
       localStorage.removeItem('adminToken');
@@ -59,7 +57,7 @@ const AdminDashboard = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('/api/projects');
+      const response = await api.get('/projects');
       const data = Array.isArray(response.data) ? response.data : [];
       setProjects(data);
     } catch (error) {
@@ -69,7 +67,7 @@ const AdminDashboard = () => {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get('/api/testimonials');
+      const response = await api.get('/testimonials');
       const data = Array.isArray(response.data) ? response.data : [];
       setTestimonials(data);
     } catch (error) {
@@ -79,7 +77,7 @@ const AdminDashboard = () => {
 
   const fetchPricingPlans = async () => {
     try {
-      const response = await axios.get('/api/pricing');
+      const response = await api.get('/pricing');
       const data = Array.isArray(response.data) ? response.data : [];
       setPricingPlans(data);
     } catch (error) {
@@ -91,9 +89,7 @@ const AdminDashboard = () => {
     try {
       const token = localStorage.getItem('adminToken');
       if (!token) return;
-      const response = await axios.get('/api/contact', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await api.get('/contact', getAuthHeaders());
       const data = Array.isArray(response.data) ? response.data : [];
       setContactMessages(data);
     } catch (error) {
@@ -103,7 +99,7 @@ const AdminDashboard = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      const response = await axios.get('/api/team-members');
+      const response = await api.get('/team-members');
       const data = Array.isArray(response.data) ? response.data : [];
       setTeamMembers(data);
     } catch (error) {
@@ -115,7 +111,7 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
 
     try {
-      await axios.delete(`/api/${type}/${id}`, getAuthHeaders());
+      await api.delete(`/${type}/${id}`, getAuthHeaders());
       if (type === 'projects') fetchProjects();
       if (type === 'testimonials') fetchTestimonials();
       if (type === 'pricing') fetchPricingPlans();

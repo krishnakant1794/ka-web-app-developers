@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaGlobe, FaMobileAlt, FaLaptopCode, FaExternalLinkAlt, FaStar, FaFilter } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../config/axios';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -14,7 +14,7 @@ const Projects = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/projects${filter !== 'all' ? `?category=${filter}` : ''}`);
+      const response = await api.get(`/projects${filter !== 'all' ? `?category=${filter}` : ''}`);
       const data = Array.isArray(response.data) ? response.data : [];
       setProjects(data);
     } catch (error) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaCode, FaUsers, FaRocket, FaAward, FaGraduationCap, FaBriefcase, FaStar } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../config/axios';
 
 const About = () => {
   const [teamMembers, setTeamMembers] = useState([]);
@@ -13,7 +13,7 @@ const About = () => {
   const fetchTeamMembers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/team-members');
+      const response = await api.get('/team-members');
       const data = Array.isArray(response.data) ? response.data : [];
       setTeamMembers(data);
     } catch (error) {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaWhatsapp, FaPhone, FaEnvelope, FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../config/axios';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const Contact = () => {
     setSuccess(false);
 
     try {
-      await axios.post('/api/contact', formData);
+      await api.post('/contact', formData);
       setSuccess(true);
       setFormData({ name: '', email: '', whatsapp: '', phone: '', message: '' });
     } catch (err) {

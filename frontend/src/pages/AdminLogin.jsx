@@ -1,19 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../config/axios';
 import { FaLock, FaEnvelope } from 'react-icons/fa';
-
-// Get base URL from environment or use relative path
-const getApiUrl = (path) => {
-  const baseURL = import.meta.env.VITE_API_URL || '';
-  if (baseURL) {
-    // Remove trailing slash from baseURL and leading slash from path
-    const cleanBase = baseURL.replace(/\/$/, '');
-    const cleanPath = path.startsWith('/') ? path : `/${path}`;
-    return `${cleanBase}${cleanPath}`;
-  }
-  return path;
-};
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -37,14 +25,7 @@ const AdminLogin = () => {
     setError('');
 
     try {
-      const url = getApiUrl('/api/auth/login');
-      
-      const response = await axios.post(url, formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+      const response = await api.post('/auth/login', formData);
       
       if (response.data && response.data.token) {
         localStorage.setItem('adminToken', response.data.token);
@@ -54,13 +35,6 @@ const AdminLogin = () => {
       }
     } catch (err) {
       console.error('Login error:', err);
-      console.error('Error details:', {
-        message: err.message,
-        response: err.response?.data,
-        status: err.response?.status,
-        url: err.config?.url,
-      });
-      
       if (err.response) {
         if (err.response.status === 405) {
           setError('Server configuration error. Please contact administrator.');

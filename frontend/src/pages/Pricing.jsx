@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaCheck, FaTimes, FaCrown } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../config/axios';
 
 const Pricing = () => {
   const [websitePlans, setWebsitePlans] = useState([]);
@@ -15,8 +15,8 @@ const Pricing = () => {
     try {
       setLoading(true);
       const [websiteRes, appRes] = await Promise.all([
-        axios.get('/api/pricing?category=Website'),
-        axios.get('/api/pricing?category=App'),
+        api.get('/pricing?category=Website'),
+        api.get('/pricing?category=App'),
       ]);
       const websiteData = Array.isArray(websiteRes.data) ? websiteRes.data : [];
       const appData = Array.isArray(appRes.data) ? appRes.data : [];

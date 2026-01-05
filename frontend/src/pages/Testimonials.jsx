@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaStar, FaQuoteLeft, FaQuoteRight } from 'react-icons/fa';
-import axios from 'axios';
+import api from '../config/axios';
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
@@ -13,7 +13,7 @@ const Testimonials = () => {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/testimonials');
+      const response = await api.get('/testimonials');
       const data = Array.isArray(response.data) ? response.data : [];
       setTestimonials(data);
     } catch (error) {
