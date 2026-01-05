@@ -47,12 +47,28 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check endpoint for Railway
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    port: PORT,
+    timestamp: new Date().toISOString(),
+    deployed: 'Railway.app'
+  });
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' });
+});
+
 // Root route
 app.get('/', (req, res) => {
   res.json({ 
     message: 'KA Web & App Developers API',
     status: 'Server is running',
     version: '1.0.0',
+    deployed: 'Railway.app',
     endpoints: {
       health: '/api/health',
       projects: '/api/projects',
